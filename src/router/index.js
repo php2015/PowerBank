@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import index from '@/view/index'
 import Lease from '@/view/lease'
+import Statuspay from '@/view/statuspay'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: "/lease",
       name: "lease",
       component: Lease
+    },
+    {
+      path: "/statuspay",
+      name: "statuspay",
+      component: Statuspay
     }
   ]
 })
