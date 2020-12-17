@@ -4,12 +4,11 @@
       <div class="amount"><span style="font-size:18px">￥</span>99.00</div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
-
     <div class="fooer">
       <div class="depositfont">
         押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
       </div>
-      <div class="deposit" v-if="Pay==1">确认支付</div>
+      <div class="deposit" v-if="Pay == 1" @click="onpay">确认支付</div>
       <div class="deposit" v-else>退押金</div>
     </div>
   </div>
@@ -19,8 +18,15 @@
 export default {
   data() {
     return {
-      Pay:1
+      Pay: 1
     };
+  },
+  methods: {
+    onpay() {
+      this.$router.push({
+        path: `./statuspay`
+      });
+    }
   }
 };
 </script>
@@ -45,8 +51,9 @@ export default {
       text-align: center;
     }
   }
-  .fooer {width: 100%;
-          position: fixed;
+  .fooer {
+    width: 100%;
+    position: fixed;
     bottom: 10px;
     .depositfont {
       line-height: 14px;
@@ -66,8 +73,7 @@ export default {
       color: #fff;
       font-size: 18px;
       text-align: center;
-      margin:0 auto;
-
+      margin: 0 auto;
     }
   }
 }
