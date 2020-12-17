@@ -18,6 +18,11 @@ export default new Router({
       path: "/lease",
       name: "lease",
       component: Lease
+    },
+    {
+      path: "/faultReport",
+      name: "faultReport",
+      component: () => import( /* webpackChunkName: 'faultReport' */ "@/view/faultReport")
     }
   ]
 })
