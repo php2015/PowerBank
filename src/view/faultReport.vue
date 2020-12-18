@@ -6,6 +6,7 @@
         name="网点"
         label="网点"
         placeholder="网点名称"
+        :disable="false"
         :rules="[{ required: true, message: '请填写网点名称' }]"
         input-align="right"
       />
@@ -56,6 +57,7 @@
 </template>
 
 <script>
+import { aa } from "@/api/api";
 import Vue from "vue";
 import { Form, Field, Button, Popup, Picker, Uploader } from "vant";
 
@@ -68,8 +70,8 @@ Vue.use(Uploader);
 export default {
   data() {
     return {
-      name: "", //网点名称
-      questType: "", //问题类型
+      name: "西湖网点", //网点名称
+      questType: "租用问题", //问题类型
       columns: ["租用问题", "归还问题", "退押金问题"],
       describe: "", //问题描述
       uploader: [{ url: "https://img.yzcdn.cn/vant/leaf.jpg" }], //展示的图片的链接
@@ -78,7 +80,7 @@ export default {
   },
   methods: {
     onSubmit(values) {
-      console.log("submit", values);
+      // console.log("submit", values);
     },
     onConfirm(value) {
       this.questType = value;
