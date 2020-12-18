@@ -84,7 +84,9 @@ export default {
   }
   .font-box {
     margin-top: 14px;
-    font-size: 10px;
+    font-size: 12px;
+    line-height: 17px;
+    color: #333;
   }
 }
 </style>

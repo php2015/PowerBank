@@ -6,7 +6,7 @@
         name="网点"
         label="网点"
         placeholder="网点名称"
-        :disable="false"
+        disabled
         :rules="[{ required: true, message: '请填写网点名称' }]"
         input-align="right"
       />
@@ -19,6 +19,7 @@
         placeholder="问题类型"
         :rules="[{ required: true, message: '请选择问题类型' }]"
         @click="showPicker = true"
+        disabled
         input-align="right"
       />
       <van-popup v-model="showPicker" position="bottom">
@@ -40,7 +41,7 @@
       />
       <van-field name="uploader" label="上传照片">
         <template #input>
-          <van-uploader v-model="uploader" upload-icon="plus" :max-count="3" />
+          <van-uploader v-model="uploader" upload-icon="plus" :max-count="3" multiple />
         </template>
       </van-field>
       <div class="btn">

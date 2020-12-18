@@ -66,8 +66,8 @@
 export default {
   data() {
     return {
-      ispay: 3,
-      status:false
+      ispay: 1,
+      status:true
     };
   }
 };
@@ -102,7 +102,7 @@ export default {
       width: 100%;
       margin-bottom:68px;
       .amount {
-        width:160px;
+        width:170px;
         margin: 0 auto;
         display: flex;
         font-weight: bold;
@@ -123,11 +123,12 @@ export default {
   .card {
     height: 233px;
     padding: 19px 14px 14px 14px;
-    font-size: 10px;
+    font-size: 12px;
     background: #fafafa;
     border-radius: 6px;
+    color: #333333;
     .card-box {
-      margin: 5px 0;
+      margin: 10px 0;
       display: flex;
       justify-content: space-between;
     }

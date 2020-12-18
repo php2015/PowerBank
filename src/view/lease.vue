@@ -46,6 +46,7 @@ export default {
       text-align: center;
     }
     .hire-font {
+      margin-top: 10px;
       font-size: 14px;
       font-weight: 700;
       text-align: center;
@@ -56,9 +57,10 @@ export default {
     position: fixed;
     bottom: 10px;
     .depositfont {
-      line-height: 14px;
-      font-size: 10px;
+      line-height: 17px;
+      font-size: 12px;
       width: 303px;
+      color: #999;
       text-align: center;
       margin: 0 auto;
       margin-bottom: 10px;
