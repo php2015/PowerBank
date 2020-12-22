@@ -55,9 +55,9 @@
       </div>
     </div>
     <div class="fooer">
-      <div class="deposit"  v-if="ispay == 1">立即归还</div>
-      <div class="deposit"  v-else-if="ispay == 2">完成</div>
-      <div class="deposit"  v-else>立即支付</div>
+      <div class="deposit" @click="goindex"  v-if="ispay == 1">立即归还</div>
+      <div class="deposit"  @click="goindex" v-else-if="ispay == 2">完成</div>
+      <div class="deposit"  v-else  @click="gopay">立即支付</div>
     </div>
   </div>
 </template>
@@ -69,6 +69,24 @@ export default {
       ispay: 1,
       status:true
     };
+  },
+  mounted() {
+     this.ispay=this.$route.params.pay
+     if(this.ispay==3){
+       this.status=false
+     }
+    console.log( this.Pay)
+  },
+  methods: {
+    goindex(){
+      this.$router.push({
+        path:`./`
+      })
+    },
+    gopay(){
+      this.ispay=2
+      this.status=true
+    }
   }
 };
 </script>

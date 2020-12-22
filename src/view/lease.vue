@@ -9,22 +9,52 @@
         押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
       </div>
       <div class="deposit" v-if="Pay == 1" @click="onpay">确认支付</div>
-      <div class="deposit" v-else>退押金</div>
+      <div class="deposit" v-else @click="ondeposit">退押金</div>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import { Toast } from "vant";
+Vue.use(Toast);
+import { orderadd } from "../api/api";
 export default {
   data() {
     return {
       Pay: 1
     };
   },
+  mounted() {
+    this.Pay = this.$route.params.pay;
+  },
   methods: {
     onpay() {
+      var that = this;
+      orderadd({
+        openId: "14",
+        rentSn: "KX0571000001"
+      }).then(res => {
+        if (res.code == 200) {
+          console.log(res);
+        }
+      });
+      Toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        onClose() {
+          that.$router.push({
+            name: "Statuspay",
+            params: {
+              pay: 1
+            }
+          });
+        }
+      });
+    },
+    ondeposit() {
       this.$router.push({
-        path: `./statuspay`
+        path: `/`
       });
     }
   }

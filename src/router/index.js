@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import index from '@/view/index'
 import Lease from '@/view/lease'
 import Statuspay from '@/view/statuspay'
+import Prompt from '@/view/prompt'
 
 Vue.use(Router)
 
@@ -17,13 +18,18 @@ export default new Router({
     },
     {
       path: "/lease",
-      name: "lease",
+      name: "Lease",
       component: Lease
     },
     {
       path: "/statuspay",
-      name: "statuspay",
+      name: "Statuspay",
       component: Statuspay
+    },
+    {
+      path: "/prompt",
+      name: "prompt",
+      component: Prompt
     },
     {
       path: "/faultReport",

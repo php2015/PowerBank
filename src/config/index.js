@@ -7,7 +7,7 @@ export default {
     useI18n: true,
     // api请求基础路径
     baseUrl: {
-        dev: '',
+        dev: 'http://kx-api:8090',
         pro: '',
     },
     // 默认打开的首页的路由name值，默认为home

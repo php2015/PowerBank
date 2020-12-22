@@ -5,8 +5,9 @@
     </div>
     <div class="button-box">
       <div class="button" @click="rent">租用</div>
-      <div class="button">归还</div>
-      <div class="button">退押金</div>
+      <div class="button" @click="back"> 归还</div>
+      <div class="button" >退押金</div>
+      <!-- @click="deposit" -->
     </div>
     <div class="font-box">
       <div>计费规则：</div>
@@ -33,7 +34,23 @@ export default {
   methods: {
     rent() {
       this.$router.push({
-        path: `/lease`
+         name: "Lease",
+        params: {
+          pay: 1
+        }
+      });
+    },
+    back(){
+       this.$router.push({
+        path: `/prompt`
+      });
+    },
+    deposit(){
+       this.$router.push({
+         name: "Lease",
+        params: {
+          pay: 3
+        }
       });
     }
   }

@@ -12,10 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://192.168.0.85:8090',
+        target: 'http://kx-api:8090',
         changeOrigin: true,
         pathRewrite: {
-          // '^/': ''
+          //  "^/aip": "",
         }
       }
     },
