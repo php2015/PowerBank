@@ -4,15 +4,15 @@
       <div class="Placeholder"></div>
       <div class="icon" v-if="status "></div>
       <div class="status-font" v-if="ispay == 1">
-        租用成功！<br />
-        请及时取用充电宝
+        租用成功！
+        <br />请及时取用充电宝
       </div>
-      <div class="status-font" v-else-if="ispay == 2">
-        支付成功！
-      </div>
+      <div class="status-font" v-else-if="ispay == 2">支付成功！</div>
       <div class="payment" v-else>
         <div class="amount">
-          <span class="amountfont">待付款：</span><span>￥</span>0.01<span class="amountfont">元</span>
+          <span class="amountfont">待付款：</span>
+          <span>￥</span>0.01
+          <span class="amountfont">元</span>
         </div>
       </div>
     </div>
@@ -43,21 +43,21 @@
       <div>租用明细：</div>
       <div class="card-box">
         <span>计费标准</span>
-        <span>CD20201130133412001</span>
+        <span>0.01元/次</span>
       </div>
       <div class="card-box">
-        <span>计费标准</span>
-        <span>瑞安市农商行南海支行</span>
+        <span>使用时长</span>
+        <span>{{$route.params.rentTime}}</span>
       </div>
       <div class="card-box">
         <span>应付金额</span>
-        <span>2020-11-30 12:21:21</span>
+        <span>{{$route.params.rentMoney + '元'}}</span>
       </div>
     </div>
     <div class="fooer">
-      <div class="deposit" @click="goindex"  v-if="ispay == 1">立即归还</div>
-      <div class="deposit"  @click="goindex" v-else-if="ispay == 2">完成</div>
-      <div class="deposit"  v-else  @click="gopay">立即支付</div>
+      <div class="deposit" @click="goindex" v-if="ispay == 1">立即归还</div>
+      <div class="deposit" @click="goindex" v-else-if="ispay == 2">完成</div>
+      <div class="deposit" v-else @click="gopay">立即支付</div>
     </div>
   </div>
 </template>
@@ -67,27 +67,29 @@ export default {
   data() {
     return {
       ispay: 1,
-      status:true
+      status: true,
     };
   },
   mounted() {
-     this.ispay=this.$route.params.pay
-     if(this.ispay==3){
-       this.status=false
-     }
-    console.log( this.Pay)
+    console.log(this.$route);
+    this.ispay = this.$route.params.pay;
+    if (this.ispay == 3) {
+      this.status = false;
+    }
+    console.log(this.Pay);
   },
   methods: {
-    goindex(){
+    goindex() {
       this.$router.push({
-        path:`./`
-      })
+        path: `./`,
+      });
     },
-    gopay(){
-      this.ispay=2
-      this.status=true
-    }
-  }
+    gopay() {
+      this.ispay = 2;
+      this.status = true;
+      console.log("调用支付接口去支付金额");
+    },
+  },
 };
 </script>
 
@@ -118,9 +120,9 @@ export default {
     }
     .payment {
       width: 100%;
-      margin-bottom:68px;
+      margin-bottom: 68px;
       .amount {
-        width:170px;
+        width: 170px;
         margin: 0 auto;
         display: flex;
         font-weight: bold;

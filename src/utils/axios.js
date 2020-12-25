@@ -8,7 +8,7 @@ class HttpRequest {
         const config = {
             baseURL: this.baseURL,
             headers: {
-                Authorization: ''
+                Authorization: '',
             }
         }
         return config

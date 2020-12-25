@@ -1,13 +1,13 @@
 <template>
   <div class="hire-box">
     <div class="hire">
-      <div class="amount"><span style="font-size:18px">￥</span>99.00</div>
+      <div class="amount">
+        <span style="font-size:18px">￥</span>99.00
+      </div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
     <div class="fooer">
-      <div class="depositfont">
-        押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
-      </div>
+      <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
       <div class="deposit" v-if="Pay == 1" @click="onpay">确认支付</div>
       <div class="deposit" v-else @click="ondeposit">退押金</div>
     </div>
@@ -22,7 +22,7 @@ import { orderadd } from "../api/api";
 export default {
   data() {
     return {
-      Pay: 1
+      Pay: 1,
     };
   },
   mounted() {
@@ -32,9 +32,9 @@ export default {
     onpay() {
       var that = this;
       orderadd({
-        openId: "14",
-        rentSn: "KX0571000001"
-      }).then(res => {
+        openId: "11",
+        rentSn: "KX0571000001",
+      }).then((res) => {
         if (res.code == 200) {
           console.log(res);
         }
@@ -46,18 +46,18 @@ export default {
           that.$router.push({
             name: "Statuspay",
             params: {
-              pay: 1
-            }
+              pay: 1,
+            },
           });
-        }
+        },
       });
     },
     ondeposit() {
       this.$router.push({
-        path: `/`
+        path: `/`,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -18,10 +18,10 @@
         label="问题类型"
         placeholder="问题类型"
         :rules="[{ required: true, message: '请选择问题类型' }]"
-        @click="showPicker = true"
-        disabled
         input-align="right"
+        @click="showPicker = true"
       />
+      <!-- @click="showPicker = true" -->
       <van-popup v-model="showPicker" position="bottom">
         <van-picker
           show-toolbar
@@ -41,7 +41,14 @@
       />
       <van-field name="uploader" label="上传照片">
         <template #input>
-          <van-uploader v-model="uploader" upload-icon="plus" :max-count="3" multiple />
+          <van-uploader
+            v-model="uploader"
+            upload-icon="plus"
+            :max-count="3"
+            multiple
+            :after-read="afterRead"
+            @delete="deleteImg"
+          />
         </template>
       </van-field>
       <div class="btn">
@@ -58,7 +65,7 @@
 </template>
 
 <script>
-import { aa } from "@/api/api";
+import { uploadImg } from "@/api/api";
 import Vue from "vue";
 import { Form, Field, Button, Popup, Picker, Uploader } from "vant";
 
@@ -75,7 +82,8 @@ export default {
       questType: "租用问题", //问题类型
       columns: ["租用问题", "归还问题", "退押金问题"],
       describe: "", //问题描述
-      uploader: [{ url: "https://img.yzcdn.cn/vant/leaf.jpg" }], //展示的图片的链接
+      uploader: [], //展示的图片的链接
+      imgData: [], //上传之后的图片地址
       showPicker: false, //问题类型的弹框
     };
   },
@@ -86,6 +94,28 @@ export default {
     onConfirm(value) {
       this.questType = value;
       this.showPicker = false;
+    },
+    async afterRead(file, detail) {
+      let formData = new FormData();
+      //如果上传的数组
+      if (file instanceof Array) {
+        for (let i = 0; i < file.length; i++) {
+          formData.append("file" + i, file[i].file);
+        }
+      } else {
+        formData.append("file", file.file); //必须是file.file，不然会报错
+      }
+      try {
+        const res = await uploadImg(formData);
+        console.log(this.imgData);
+        this.imgData.push({ url: res.data.fileUrl });
+      } catch (error) {
+        console.log(error);
+      }
+      // uploadImg
+    },
+    deleteImg(file, index) {
+      console.log(file, index);
     },
   },
 };
