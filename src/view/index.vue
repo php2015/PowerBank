@@ -18,7 +18,9 @@
     </div>
     <div class="font-box">
       <div>押金规则：</div>
-      <div>租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
+      <div>
+        租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
+      </div>
       <br />
       <div @click="goFalse">故障上报</div>
     </div>
@@ -32,7 +34,7 @@ import { Notify, Dialog } from "vant";
 // 全局注册
 Vue.use(Notify);
 Vue.use(Dialog);
-import { getReturn, depositRefund } from "../api/api";
+import { getReturn, depositRefund, orderadd } from "../api/api";
 export default {
   data() {
     return { branNo: null, openId: null, sn: null };
@@ -45,13 +47,35 @@ export default {
   },
   methods: {
     // 租用
-    rent() {
-      this.$router.push({
-        name: "Lease",
-        params: {
-          pay: 1,
-        },
+    async rent() {
+      const res = await orderadd({
+        openId: "16",
+        rentSn: "KX0571000001"
       });
+      console.log(res);
+      if (res.code == 210) {
+        Notify({
+          type: "primary",
+          message: "请先支付押金后再租用！"
+        });
+        this.$router.push({
+          name: "Lease",
+          params: {
+            pay: 1
+          }
+        });
+      } else if(res.code == 211){
+          Notify({
+          type: "primary",
+          message: "请结算未支付的订单!"
+        });
+      }
+      // this.$router.push({
+      //   name: "Lease",
+      //   params: {
+      //     pay: 1,
+      //   },
+      // });
     },
     // 归还
     async back() {
@@ -59,7 +83,7 @@ export default {
       if (res.code == 212) {
         Notify({
           type: "primary",
-          message: "当前没有可归还充电宝，请先去租用充电宝！",
+          message: "当前没有可归还充电宝，请先去租用充电宝！"
         });
       } else if (res.code == 213) {
         Notify({ type: "danger", message: "请先归还充电宝！" });
@@ -71,8 +95,8 @@ export default {
             pay: 3,
             orderId: res.data.orderId,
             rentTime: res.data.rentTime,
-            rentMoney: res.data.rentMoney,
-          },
+            rentMoney: res.data.rentMoney
+          }
         });
       }
     },
@@ -83,10 +107,20 @@ export default {
         if (res.code == 211) {
           Dialog.confirm({
             title: "提示",
-            message: "您有一项待支付订单，前往支付？",
+            message: "您有一项待支付订单，前往支付？"
           })
-            .then(async () => {
-              this.back();
+            .then(() => {
+              // on confirm
+              this.$router.push({
+                path: `/statuspay`,
+                name: "Statuspay",
+                params: {
+                  pay: 3,
+                  orderId: res.data.orderId,
+                  rentTime: res.data.rentTime,
+                  rentMoney: res.data.rentMoney
+                }
+              });
             })
             .catch(() => {
               // on cancel
@@ -110,8 +144,8 @@ export default {
                   pay: 3,
                   orderId: res.data.orderId,
                   rentTime: res.data.rentTime,
-                  rentMoney: res.data.rentMoney,
-                },
+                  rentMoney: res.data.rentMoney
+                }
               });
               break;
 
@@ -127,8 +161,8 @@ export default {
       this.$router.push({
         name: "Lease",
         params: {
-          pay: 3,
-        },
+          pay: 3
+        }
       });
     },
     // 故障上报
