@@ -35,9 +35,14 @@ Vue.use(Dialog);
 import { getReturn, depositRefund } from "../api/api";
 export default {
   data() {
-    return {};
+    return { branNo: null, openId: null, sn: null };
   },
-  mounted() {},
+  mounted() {
+    const { branNo, openId, sn } = this.$route.query;
+    this.branNo = branNo;
+    this.openId = openId;
+    this.sn = sn;
+  },
   methods: {
     // 租用
     rent() {
@@ -50,7 +55,7 @@ export default {
     },
     // 归还
     async back() {
-      const res = await getReturn({ openId: "11", rentFlag: "1" });
+      const res = await getReturn({ openId: this.openId, rentFlag: "1" });
       if (res.code == 212) {
         Notify({
           type: "primary",
@@ -74,8 +79,7 @@ export default {
     // 退押金
     async depositRefund() {
       try {
-        const res = await depositRefund({ openId: "11" });
-        console.log(res);
+        const res = await depositRefund({ openId: this.openId });
         if (res.code == 211) {
           Dialog.confirm({
             title: "提示",
@@ -130,15 +134,15 @@ export default {
     // 故障上报
     async goFalse() {
       try {
-        const res = await depositRefund({ openId: "14" });
+        const res = await depositRefund({ openId: this.openId });
         if (res.code >= 200 && res.code < 300) {
           console.log(res.data);
-          const { depositStatus, openId } = res.data;
+          const { depositStatus } = res.data;
           if (depositStatus == "1") {
             this.$router.push({
               path: "/faultReport",
               name: "faultReport",
-              params: { openId },
+              params: { openId: this.openId },
             });
           }
         } else {
