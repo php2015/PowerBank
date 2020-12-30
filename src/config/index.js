@@ -7,7 +7,7 @@ export default {
     useI18n: true,
     // api请求基础路径
     baseUrl: {
-        dev: 'http://47.114.37.8:8888/v1/',
+        dev: 'https://47.114.37.8:8888/v1/',
         // dev: 'http://192.168.1.244:8090/v1/',
         pro: '',
     },
