@@ -51,7 +51,6 @@ export default {
     // 归还
     async back() {
       const res = await getReturn({ openId: "11", rentFlag: "1" });
-      console.log(res);
       if (res.code == 212) {
         Notify({
           type: "primary",
@@ -78,23 +77,12 @@ export default {
         const res = await depositRefund({ openId: "11" });
         console.log(res);
         if (res.code == 211) {
-          // Notify({ type: "danger", message: "您有一项待支付订单" });
           Dialog.confirm({
             title: "提示",
             message: "您有一项待支付订单，前往支付？",
           })
-            .then(() => {
-              // on confirm
-              this.$router.push({
-                path: `/statuspay`,
-                name: "Statuspay",
-                params: {
-                  pay: 3,
-                  orderId: res.data.orderId,
-                  rentTime: res.data.rentTime,
-                  rentMoney: res.data.rentMoney,
-                },
-              });
+            .then(async () => {
+              this.back();
             })
             .catch(() => {
               // on cancel
@@ -104,8 +92,7 @@ export default {
           console.log(depositStatus);
           switch (depositStatus) {
             case "0":
-              Notify({ type: "danger", message: "押金未支付" });
-
+              Notify({ type: "danger", message: "未支付押金" });
               break;
             case "1":
               Notify({ type: "danger", message: "请先归还充电宝" });
@@ -141,11 +128,24 @@ export default {
       });
     },
     // 故障上报
-    goFalse() {
-      this.$router.push({
-        path: "/faultReport",
-        name: "faultReport",
-      });
+    async goFalse() {
+      try {
+        const res = await depositRefund({ openId: "14" });
+        if (res.code >= 200 && res.code < 300) {
+          console.log(res.data);
+          const { depositStatus, openId } = res.data;
+          if (depositStatus == "1") {
+            this.$router.push({
+              path: "/faultReport",
+              name: "faultReport",
+              params: { openId },
+            });
+          }
+        } else {
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

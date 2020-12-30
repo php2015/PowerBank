@@ -14,7 +14,7 @@
         readonly
         clickable
         name="picker"
-        :value="questType"
+        :value="exceptionType"
         label="问题类型"
         placeholder="问题类型"
         :rules="[{ required: true, message: '请选择问题类型' }]"
@@ -31,7 +31,7 @@
         />
       </van-popup>
       <van-field
-        v-model="describe"
+        v-model="exceptionReason"
         rows="2"
         autosize
         type="textarea"
@@ -78,21 +78,26 @@ Vue.use(Uploader);
 export default {
   data() {
     return {
+      openId: "",
+      sn:'KX0571000001',
       name: "西湖网点", //网点名称
-      questType: "租用问题", //问题类型
-      columns: ["租用问题", "归还问题", "退押金问题"],
-      describe: "", //问题描述
+      exceptionType: "租用问题", //问题类型
+      columns: ["租用故障", "归还故障"],
+      exceptionReason: "", //问题描述
       uploader: [], //展示的图片的链接
-      imgData: [], //上传之后的图片地址
+      fileList: [], //上传之后的图片地址
       showPicker: false, //问题类型的弹框
     };
+  },
+  mounted() {
+    this.openId = this.$route.params.openId;
   },
   methods: {
     onSubmit(values) {
       // console.log("submit", values);
     },
     onConfirm(value) {
-      this.questType = value;
+      this.exceptionType = value;
       this.showPicker = false;
     },
     async afterRead(file, detail) {
@@ -107,8 +112,8 @@ export default {
       }
       try {
         const res = await uploadImg(formData);
-        console.log(this.imgData);
-        this.imgData.push({ url: res.data.fileUrl });
+        console.log(this.fileList);
+        this.fileList.push(res.data);
       } catch (error) {
         console.log(error);
       }
