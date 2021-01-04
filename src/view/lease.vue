@@ -1,13 +1,13 @@
 <template>
   <div class="hire-box">
     <div class="hire">
-      <div class="amount"><span style="font-size:18px">￥</span>99.00</div>
+      <div class="amount">
+        <span style="font-size:18px">￥</span>99.00
+      </div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
     <div class="fooer">
-      <div class="depositfont">
-        押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
-      </div>
+      <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
       <div class="deposit" v-if="pay == 1" @click="onpay">确认支付</div>
       <div class="deposit" v-else @click="ondeposit">退押金</div>
     </div>
@@ -16,10 +16,11 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios";
 import { Toast, Notify } from "vant";
 Vue.use(Toast);
 Vue.use(Notify);
-import { orderadd, applyRefund, getPayAutograph,payRent } from "../api/api";
+import { orderadd, applyRefund, getPayAutograph, payRent } from "../api/api";
 export default {
   data() {
     return {
@@ -27,7 +28,7 @@ export default {
       openId: null,
       rentSn: null,
       plain: null,
-      signature: null
+      signature: null,
     };
   },
   mounted() {
@@ -44,16 +45,28 @@ export default {
           openId: this.openId,
           sn: this.rentSn,
           payType: "yajin",
-          rentTime: 0
+          rentTime: 0,
         });
         if (res.code == 200) {
           this.plain = res.data.plain;
           this.signature = res.data.signature;
-          const num = await payRent({
-            Plain: this.plain,
-            Signature: this.signature,
-            TransId:'IPEM'
-          })
+          // const num = await payRent({
+          //   Plain: this.plain,
+          //   Signature: this.signature,
+          //   TransId:'IPEM'
+          // })
+          axios
+            .post("http://epay1.zj96596.com.cn/paygate/main", {
+              Plain: this.plain,
+              Signature: this.signature,
+              TransId: "IPEM",
+            })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
           // that.$router.push({
           //   name: "Statu`spay",
           //   params: {
@@ -75,8 +88,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
