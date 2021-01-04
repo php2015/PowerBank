@@ -1,13 +1,13 @@
 <template>
   <div class="hire-box">
     <div class="hire">
-      <div class="amount">
-        <span style="font-size:18px">￥</span>99.00
-      </div>
+      <div class="amount"><span style="font-size:18px">￥</span>99.00</div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
     <div class="fooer">
-      <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
+      <div class="depositfont">
+        押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
+      </div>
       <div class="deposit" v-if="pay == 1" @click="onpay">确认支付</div>
       <div class="deposit" v-else @click="ondeposit">退押金</div>
     </div>
@@ -19,13 +19,15 @@ import Vue from "vue";
 import { Toast, Notify } from "vant";
 Vue.use(Toast);
 Vue.use(Notify);
-import { orderadd, applyRefund } from "../api/api";
+import { orderadd, applyRefund, getPayAutograph,payRent } from "../api/api";
 export default {
   data() {
     return {
       pay: 1,
       openId: null,
       rentSn: null,
+      plain: null,
+      signature: null
     };
   },
   mounted() {
@@ -38,18 +40,26 @@ export default {
   methods: {
     async onpay() {
       try {
-        const res = await orderadd({
+        const res = await getPayAutograph({
           openId: this.openId,
-          rentSn: this.rentSn,
+          sn: this.rentSn,
+          payType: "yajin",
+          rentTime: 0
         });
         if (res.code == 200) {
-          console.log(res);
-          that.$router.push({
-            name: "Statuspay",
-            params: {
-              pay: 1,
-            },
-          });
+          this.plain = res.data.plain;
+          this.signature = res.data.signature;
+          const num = await payRent({
+            Plain: this.plain,
+            Signature: this.signature,
+            TransId:'IPEM'
+          })
+          // that.$router.push({
+          //   name: "Statu`spay",
+          //   params: {
+          //     pay: 1`
+          //   }
+          // });
         } else {
           Notify({ type: "warning", message: res.msg });
         }
@@ -65,8 +75,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

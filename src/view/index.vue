@@ -53,7 +53,7 @@ export default {
     );
     this.branNo = localStorage.getItem("branNo");
     this.openId = localStorage.getItem("openId");
-    this.sn = localStorage.getItem("sn");
+    this.sn = localStorage.getItem("sn"); 
   },
   methods: {
     // 租用
