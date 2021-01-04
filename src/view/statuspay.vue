@@ -63,20 +63,29 @@
 </template>
 
 <script>
+import { getPayAutograph, applyRefund } from "../api/api";
 export default {
   data() {
     return {
       ispay: 1,
       status: true,
+      openId: "",
+      pay: "",
+      rentTime: "",
+      time: "",
     };
   },
   mounted() {
-    console.log(this.$route);
-    this.ispay = this.$route.params.pay;
+    const { openId, pay, rentTime, sn, time } = this.$route.params;
+    openId ? (this.openId = openId) : "";
+    sn ? (this.sn = sn) : "";
+    rentTime ? (this.rentTime = rentTime) : "";
+    time ? (this.time = time) : "";
+
+    this.ispay = pay;
     if (this.ispay == 3) {
       this.status = false;
     }
-    console.log(this.Pay);
   },
   methods: {
     goindex() {
@@ -84,10 +93,25 @@ export default {
         path: `./`,
       });
     },
-    gopay() {
-      this.ispay = 2;
-      this.status = true;
-      console.log("调用支付接口去支付金额");
+    async gopay() {
+      const { openId, sn, time } = this;
+      const res = await getPayAutograph({
+        openId,
+        rentTime: time,
+        payType: "zujin",
+        sn,
+      });
+      if (res.code == 200) {
+        this.ispay = 2;
+        this.status = true;
+        console.log(res.data);
+
+        alert("支付成功");
+      } else if (res.code == 500) {
+        alert("支付失败");
+      }
+
+      console.log(res, "调用支付接口去支付金额");
     },
   },
 };

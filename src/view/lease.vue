@@ -27,6 +27,8 @@ export default {
   },
   mounted() {
     this.Pay = this.$route.params.pay;
+    const { depositMoney, orderId } = this.$route.params;
+    console.log(depositMoney, orderId);
   },
   methods: {
     onpay() {

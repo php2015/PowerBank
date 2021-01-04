@@ -37,3 +37,19 @@ export const depositRefund = (params) => {
         method: 'get'
     })
 }
+
+// 获取支付时的明文和签名
+export const getPayAutograph = (params) => {
+    return axios.request({
+        url: 'app/pay/getPayInfo',
+        method: 'get',
+        params
+    })
+}
+// 申请退款
+export const applyRefund = (params) => {
+    return axios.request({
+        url: `app/pay/refund/${params.openId}`,
+        method: 'post',
+    })
+}
