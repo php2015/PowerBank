@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { getPayAutograph, applyRefund } from "../api/api";
+import { getPayAutograph, applyRefund, payRent } from "../api/api";
 export default {
   data() {
     return {
@@ -76,12 +76,11 @@ export default {
     };
   },
   mounted() {
-    const { openId, pay, rentTime, sn, time } = this.$route.params;
-    openId ? (this.openId = openId) : "";
-    sn ? (this.sn = sn) : "";
+    const { pay, rentTime, time } = this.$route.params;
     rentTime ? (this.rentTime = rentTime) : "";
     time ? (this.time = time) : "";
-
+    this.sn = localStorage.getItem("sn");
+    this.openId = localStorage.getItem("openId");
     this.ispay = pay;
     if (this.ispay == 3) {
       this.status = false;
@@ -101,11 +100,17 @@ export default {
         payType: "zujin",
         sn,
       });
+      console.log(res);
       if (res.code == 200) {
         this.ispay = 2;
         this.status = true;
         console.log(res.data);
-
+        const res1 = await payRent({
+          Plain: res.data.plain,
+          Signature: res.data.signature,
+          TransId: "IPEM",
+        });
+        console.log(res1);
         alert("支付成功");
       } else if (res.code == 500) {
         alert("支付失败");

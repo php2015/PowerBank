@@ -53,3 +53,11 @@ export const applyRefund = (params) => {
         method: 'post',
     })
 }
+// 支付租金
+export const payRent = (data) => {
+    return axios.request({
+        url: 'http://epay1.zj96596.com.cn/paygate/main',
+        method: 'post',
+        data
+    })
+}

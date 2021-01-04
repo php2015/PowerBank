@@ -8,7 +8,7 @@
     </div>
     <div class="fooer">
       <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
-      <div class="deposit" v-if="Pay == 1" @click="onpay">确认支付</div>
+      <div class="deposit" v-if="pay == 1" @click="onpay">确认支付</div>
       <div class="deposit" v-else @click="ondeposit">退押金</div>
     </div>
   </div>
@@ -16,65 +16,55 @@
 
 <script>
 import Vue from "vue";
-import { Toast } from "vant";
+import { Toast, Notify } from "vant";
 Vue.use(Toast);
-import { orderadd } from "../api/api";
+Vue.use(Notify);
+import { orderadd, applyRefund } from "../api/api";
 export default {
   data() {
     return {
-      Pay: 1,
+      pay: 1,
       openId: null,
+      rentSn: null,
     };
   },
   mounted() {
-    this.Pay = this.$route.params.pay;
-    const { depositMoney, openId } = this.$route.params;
-    this.openId = openId;
+    const { depositMoney, pay } = this.$route.params;
+    this.pay = pay;
     this.depositMoney = depositMoney;
-    console.log(depositMoney, openId);
+    this.openId = localStorage.getItem("openId");
+    this.rentSn = localStorage.getItem("sn");
   },
   methods: {
-    onpay() {
-      var that = this;
-      orderadd({
-        openId: this.openId,
-        rentSn: "KX0571000001",
-      }).then((res) => {
+    async onpay() {
+      try {
+        const res = await orderadd({
+          openId: this.openId,
+          rentSn: this.rentSn,
+        });
         if (res.code == 200) {
           console.log(res);
+          that.$router.push({
+            name: "Statuspay",
+            params: {
+              pay: 1,
+            },
+          });
+        } else {
+          Notify({ type: "warning", message: res.msg });
         }
-      });
-      that.$router.push({
-        name: "Statuspay",
-        params: {
-          pay: 1,
-        },
-      });
+      } catch (error) {
+        console.log(error);
+      }
     },
+    // 申请退款
     async ondeposit() {
-      var that = this;
-      const res = await orderadd({
-        openId: this.openId,
-        rentSn: "KX0571000001",
-      });
-      Toast.loading({
-        message: "加载中...",
-        forbidClick: true,
-        onClose() {
-          if (res.code == 200) {
-            console.log(res);
-          } else {
-            console.log(res.msg);
-          }
-
-          // that.$router.push({
-          //   name: "Statuspay",
-          //   params: {
-          //     pay: 1,
-          //   },
-          // });
-        },
-      });
+      try {
+        const res = await applyRefund({ openId: this.openId });
+        Notify({ type: "warning", message: res.msg });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
