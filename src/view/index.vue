@@ -18,7 +18,9 @@
     </div>
     <div class="font-box">
       <div>押金规则：</div>
-      <div>租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
+      <div>
+        租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
+      </div>
       <br />
       <div @click="goFalse">故障上报</div>
     </div>
@@ -39,33 +41,52 @@ export default {
   },
   mounted() {
     const { branNo, openId, sn } = this.$route.query;
-    this.branNo = branNo;
-    this.openId = openId;
-    this.sn = sn;
+    localStorage.setItem(
+      "branNo",
+      window.location.search.split("&")[1].split("branNo=")[1]
+    );
+    localStorage.setItem(
+      "openId",
+      window.location.search.split("&")[0].split("?openId=")[1]
+    );
+    localStorage.setItem(
+      "sn",
+      window.location.search.split("&")[2].split("sn=")[1]
+    );
+    this.branNo = localStorage.getItem("branNo");
+    // this.openId = openId;
+    this.openId = localStorage.getItem("openId");
+    this.sn = localStorage.getItem("sn");
+    // console.log(window.location.search.split("?branNo="));
   },
   methods: {
     // 租用
     async rent() {
       const res = await orderadd({
         openId: this.openId,
-        rentSn: "KX0571000001",
+        rentSn: "KX0571000001"
       });
       console.log(res);
       if (res.code == 210) {
         Notify({
-          type: "primary",
-          message: "请先支付押金后再租用！",
+          type: "warning",
+          message: "请先支付押金后再租用！"
         });
         this.$router.push({
           name: "Lease",
           params: {
-            pay: 1,
-          },
+            pay: 1
+          }
         });
       } else if (res.code == 211) {
         Notify({
-          type: "primary",
-          message: "请结算未支付的订单!",
+          type: "warning",
+          message: "请结算未支付的订单!"
+        });
+      } else if (res.code == 502) {
+        Notify({
+          type: "danger",
+          message: "弹出充电宝异常,请提交故障上报！"
         });
       }
       // this.$router.push({
@@ -81,7 +102,7 @@ export default {
       if (res.code == 212) {
         Notify({
           type: "primary",
-          message: "当前没有可归还充电宝，请先去租用充电宝！",
+          message: "当前没有可归还充电宝，请先去租用充电宝！"
         });
       } else if (res.code == 213) {
         Notify({ type: "danger", message: "请先归还充电宝！" });
@@ -97,8 +118,8 @@ export default {
             rentMoney: res.data.rentMoney,
             openId: this.openId,
             sn: this.sn,
-            time: res.data.time,
-          },
+            time: res.data.time
+          }
         });
       }
     },
@@ -110,7 +131,7 @@ export default {
         if (res.code == 211) {
           Dialog.confirm({
             title: "提示",
-            message: "您有一项待支付订单，前往支付？",
+            message: "您有一项待支付订单，前往支付？"
           })
             .then(() => {
               // on confirm
@@ -144,8 +165,8 @@ export default {
                 name: "Lease",
                 params: {
                   depositMoney: res.data.depositMoney,
-                  orderId: res.data.orderId,
-                },
+                  orderId: res.data.orderId
+                }
               });
               break;
             case "2":
@@ -166,8 +187,8 @@ export default {
       this.$router.push({
         name: "Lease",
         params: {
-          pay: 3,
-        },
+          pay: 3
+        }
       });
     },
     // 故障上报
@@ -181,7 +202,7 @@ export default {
             this.$router.push({
               path: "/faultReport",
               name: "faultReport",
-              params: { openId: this.openId },
+              params: { openId: this.openId }
             });
           }
         } else {
@@ -189,8 +210,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
