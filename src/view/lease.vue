@@ -23,40 +23,57 @@ export default {
   data() {
     return {
       Pay: 1,
+      openId: null,
     };
   },
   mounted() {
     this.Pay = this.$route.params.pay;
-    const { depositMoney, orderId } = this.$route.params;
-    console.log(depositMoney, orderId);
+    const { depositMoney, openId } = this.$route.params;
+    this.openId = openId;
+    this.depositMoney = depositMoney;
+    console.log(depositMoney, openId);
   },
   methods: {
     onpay() {
       var that = this;
       orderadd({
-        openId: "11",
+        openId: this.openId,
         rentSn: "KX0571000001",
       }).then((res) => {
         if (res.code == 200) {
           console.log(res);
         }
       });
+      that.$router.push({
+        name: "Statuspay",
+        params: {
+          pay: 1,
+        },
+      });
+    },
+    async ondeposit() {
+      var that = this;
+      const res = await orderadd({
+        openId: this.openId,
+        rentSn: "KX0571000001",
+      });
       Toast.loading({
         message: "加载中...",
         forbidClick: true,
         onClose() {
-          that.$router.push({
-            name: "Statuspay",
-            params: {
-              pay: 1,
-            },
-          });
+          if (res.code == 200) {
+            console.log(res);
+          } else {
+            console.log(res.msg);
+          }
+
+          // that.$router.push({
+          //   name: "Statuspay",
+          //   params: {
+          //     pay: 1,
+          //   },
+          // });
         },
-      });
-    },
-    ondeposit() {
-      this.$router.push({
-        path: `/`,
       });
     },
   },

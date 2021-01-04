@@ -1,4 +1,7 @@
 import axios from 'axios'
+import Vue from "vue";
+import { Toast } from "vant";
+Vue.use(Toast);
 class HttpRequest {
     constructor(baseUrl) {
         this.baseURL = baseUrl
@@ -25,6 +28,10 @@ class HttpRequest {
             // 添加全局loading... 
             if (!Object.keys(this.queue).length) {
                 //不建议开启，因为界面不友好
+                Toast.loading({
+                    message: "加载中...",
+                    forbidClick: true,
+                })
             }
             this.queue[url] = true
             return config
@@ -38,6 +45,7 @@ class HttpRequest {
             if (typeof data === 'object') {
                 //自己处理
             }
+            Toast.clear();
             return data
         }, error => {
             this.destory(url)

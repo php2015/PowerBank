@@ -113,21 +113,10 @@ export default {
             message: "您有一项待支付订单，前往支付？",
           })
             .then(() => {
-              // on confirm
-              // this.$router.push({
-              //   path: `/statuspay`,
-              //   name: "Statuspay",
-              //   params: {
-              //     pay: 3,
-              //     orderId: res.data.orderId,
-              //     rentTime: res.data.rentTime,
-              //     rentMoney: res.data.rentMoney,
-              //   },
-              // });
               this.back();
             })
-            .catch(() => {
-              // on cancel
+            .catch((e) => {
+              console.log(e);
             });
         } else if (res.code == 200) {
           const { depositStatus } = res.data;
@@ -137,14 +126,15 @@ export default {
               Notify({ type: "primary", message: "尚未支付押金" });
               break;
             case "1":
-              console.log(res.data.depositMoney);
-              console.log(res.data.openId);
+              const { depositMoney, openId } = res.data;
+              console.log(depositMoney);
+              console.log(openId);
               this.$router.push({
                 path: `/lease`,
                 name: "Lease",
                 params: {
-                  depositMoney: res.data.depositMoney,
-                  orderId: res.data.orderId,
+                  depositMoney: depositMoney,
+                  openId: openId,
                 },
               });
               break;
