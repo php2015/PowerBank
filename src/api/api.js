@@ -2,14 +2,14 @@ import axios from '@/utils/request'
 // 查询订单
 export const getReturn = (params) => {
     return axios.request({
-        url: `app/order/getOrder/${params.openId}/${params.rentFlag}`,
+        url: `v1/app/order/getOrder/${params.openId}/${params.rentFlag}`,
         method: 'get'
     })
 }
 // 添加订单
 export const orderadd = (data) => {
     return axios.request({
-        url: 'app/order/add',
+        url: 'v1/app/order/add',
         method: 'post',
         data
     })
@@ -17,7 +17,7 @@ export const orderadd = (data) => {
 // 上传图片
 export const uploadImg = (data) => {
     return axios.request({
-        url: 'wxapp/file/upload',
+        url: 'v1/wxapp/file/upload',
         method: 'post',
         data
     })
@@ -25,7 +25,7 @@ export const uploadImg = (data) => {
 // 错误信息提交
 export const faultReport = (data) => {
     return axios.request({
-        url: 'api/exception/add',
+        url: 'v1/api/exception/add',
         method: 'post',
         data
     })
@@ -33,7 +33,7 @@ export const faultReport = (data) => {
 // 查询客户
 export const depositRefund = (params) => {
     return axios.request({
-        url: `app/customer/getCustomer/${params.openId}`,
+        url: `v1/app/customer/getCustomer/${params.openId}`,
         method: 'get'
     })
 }
@@ -41,7 +41,7 @@ export const depositRefund = (params) => {
 // 获取支付时的明文和签名
 export const getPayAutograph = (params) => {
     return axios.request({
-        url: 'app/pay/getPayInfo',
+        url: 'v1/app/pay/getPayInfo',
         method: 'get',
         params
     })
@@ -49,7 +49,7 @@ export const getPayAutograph = (params) => {
 // 申请退款
 export const applyRefund = (params) => {
     return axios.request({
-        url: `app/pay/refund/${params.openId}`,
+        url: `v1/app/pay/refund/${params.openId}`,
         method: 'post',
     })
 }
