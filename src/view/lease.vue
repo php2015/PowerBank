@@ -1,13 +1,23 @@
 <template>
   <div class="hire-box">
     <div class="hire">
-      <div class="amount">
-        <span style="font-size:18px">￥</span>99.00
-      </div>
+      <div class="amount"><span style="font-size:18px">￥</span>99.00</div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
     <div class="fooer">
-      <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
+      <form
+        action="http://epay1.zj96596.com.cn/paygate/main"
+        method="post"
+        ref="form"
+      >
+        <input type="hidden" name="TransId" value="IPEM" />
+        <input type="text" name="Plain" v-model="this.plain" />
+        <input type="text" name="Signature" v-model="this.signature" />
+        <input type="submit" name="submit" value="银行支付网关" />
+      </form>
+      <div class="depositfont">
+        押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
+      </div>
       <div class="deposit" v-if="pay == 1" @click="onpay">确认支付</div>
       <div class="deposit" v-else @click="ondeposit">退押金</div>
     </div>
@@ -28,7 +38,7 @@ export default {
       openId: null,
       rentSn: null,
       plain: null,
-      signature: null,
+      signature: null
     };
   },
   mounted() {
@@ -45,7 +55,7 @@ export default {
           openId: this.openId,
           sn: this.rentSn,
           payType: "yajin",
-          rentTime: 0,
+          rentTime: 0
         });
         if (res.code == 200) {
           this.plain = res.data.plain;
@@ -55,18 +65,8 @@ export default {
           //   Signature: this.signature,
           //   TransId:'IPEM'
           // })
-          axios
-            .post("http://epay1.zj96596.com.cn/paygate/main", {
-              Plain: this.plain,
-              Signature: this.signature,
-              TransId: "IPEM",
-            })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          console.log(this.$refs.form, 64);
+          this.$refs.form.submit();
           // that.$router.push({
           //   name: "Statu`spay",
           //   params: {
@@ -88,8 +88,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
