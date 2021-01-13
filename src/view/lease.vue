@@ -1,7 +1,9 @@
 <template>
   <div class="hire-box">
     <div class="hire">
-      <div class="amount"><span style="font-size:18px">￥</span>99.00</div>
+      <div class="amount">
+        <span style="font-size:18px">￥</span>99.00
+      </div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
     <div class="fooer">
@@ -10,10 +12,9 @@
         <input type="hidden" name="TransId" :value="TransId" />
         <input type="hidden" name="Plain" :value="Plain" />
         <input type="hidden" name="Signature" :value="Signature" />
-        <input class="submit" :type="pay === 1 ? 'submit':'hidden'" value />
+        <input class="submit" type="submit" value @click="onpay" />
       </form>
-      <div class="deposit" v-if="pay == 1" @click="onpay">确认支付</div>
-      <div class="deposit" v-else @click="ondeposit">退押金</div>
+      <div class="deposit" @click="onpay">确认支付</div>
     </div>
   </div>
 </template>
@@ -37,8 +38,8 @@ export default {
     };
   },
   mounted() {
-    const { depositMoney, pay } = this.$route.params;
-    this.pay = pay;
+    const { depositMoney } = this.$route.params;
+    // this.pay = pay;
     this.depositMoney = depositMoney;
     this.openId = localStorage.getItem("openId");
     this.rentSn = localStorage.getItem("sn");
@@ -50,8 +51,6 @@ export default {
         const res = await getPayAutograph({
           openId: this.openId,
           sn: this.rentSn,
-          payType: "yajin",
-          rentTime: 0
         });
         console.log(res);
         if (res.code == 200) {
@@ -65,6 +64,8 @@ export default {
       }
     },
     async onpay() {
+      console.log(new Date().getTime(), 2);
+
       // try {
       //   const res = await getPayAutograph({
       //     openId: this.openId,
@@ -128,8 +129,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
