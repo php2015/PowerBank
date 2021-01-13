@@ -72,13 +72,11 @@ export default {
       openId: "",
       pay: "",
       rentTime: "",
-      time: "",
     };
   },
   mounted() {
-    const { pay, rentTime, time } = this.$route.params;
+    const { pay, rentTime } = this.$route.params;
     rentTime ? (this.rentTime = rentTime) : "";
-    time ? (this.time = time) : "";
     this.sn = localStorage.getItem("sn");
     this.openId = localStorage.getItem("openId");
     this.ispay = pay;
@@ -93,11 +91,9 @@ export default {
       });
     },
     async gopay() {
-      const { openId, sn, time } = this;
+      const { openId, sn } = this;
       const res = await getPayAutograph({
         openId,
-        rentTime: time,
-        payType: "zujin",
         sn,
       });
       console.log(res);

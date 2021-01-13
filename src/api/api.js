@@ -1,4 +1,11 @@
 import axios from '@/utils/request'
+// 查询最后一笔订单
+export const getLastOrder = (params) => {
+    return axios.request({
+        url: `v1/app/order/getFinalOrder/${params.openId}`,
+        method: 'get'
+    })
+}
 // 查询订单
 export const getReturn = (params) => {
     return axios.request({
@@ -9,11 +16,19 @@ export const getReturn = (params) => {
 // 添加订单
 export const orderadd = (data) => {
     return axios.request({
-        url: 'v1/app/order/add',
+        url: 'v1/app/order/addOrder',
         method: 'post',
         data
     })
 }
+// // 添加订单
+// export const orderadd = (data) => {
+//     return axios.request({
+//         url: 'v1/app/order/add',
+//         method: 'post',
+//         data
+//     })
+// }
 // 上传图片
 export const uploadImg = (data) => {
     return axios.request({
@@ -37,15 +52,30 @@ export const depositRefund = (params) => {
         method: 'get'
     })
 }
+// 查询客户
+export const singleQuery = (params) => {
+    return axios.request({
+        url: `/v1/app/pay/singleQuery/${params.orderId}`,
+        method: 'get'
+    })
+}
 
 // 获取支付时的明文和签名
+export const getPayAutograph = (params) => {
+    return axios.request({
+        url: 'v1/app/pay/getPayInfoV2',
+        method: 'get',
+        params
+    })
+}
+/* // 获取支付时的明文和签名
 export const getPayAutograph = (params) => {
     return axios.request({
         url: 'v1/app/pay/getPayInfo',
         method: 'get',
         params
     })
-}
+} */
 // 申请退款
 export const applyRefund = (params) => {
     return axios.request({

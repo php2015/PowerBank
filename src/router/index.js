@@ -35,7 +35,11 @@ export default new Router({
       path: "/faultReport",
       name: "faultReport",
       component: () => import( /* webpackChunkName: 'faultReport' */ "@/view/faultReport")
-
+    },
+    {
+      path: "/authFailed",
+      name: "authFailed",
+      component: () => import( /* webpackChunkName: 'authFailed' */ "@/view/authFailed")
     }
   ]
 })

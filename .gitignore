@@ -2,9 +2,14 @@
 node_modules/
 /config/
 /dist/
+/src/view/indexaaa.vue
+/src/view/leaseaaa.vue
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.gitignore
+/dist.zip
+
 
 # Editor directories and files
 .idea
