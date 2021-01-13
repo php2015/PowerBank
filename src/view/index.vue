@@ -18,7 +18,9 @@
     </div>
     <div class="font-box">
       <div>押金规则：</div>
-      <div>租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
+      <div>
+        租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
+      </div>
       <br />
       <div @click="goFalse">故障上报</div>
     </div>
@@ -39,18 +41,6 @@ export default {
   },
   mounted() {
     const { branNo, openId, sn } = this.$route.query;
-    localStorage.setItem(
-      "branNo",
-      window.location.search.split("&")[1].split("branNo=")[1]
-    );
-    localStorage.setItem(
-      "openId",
-      window.location.search.split("&")[0].split("?openId=")[1]
-    );
-    localStorage.setItem(
-      "sn",
-      window.location.search.split("&")[2].split("sn=")[1]
-    );
     this.branNo = localStorage.getItem("branNo");
     this.openId = localStorage.getItem("openId");
     this.sn = localStorage.getItem("sn");
@@ -60,29 +50,37 @@ export default {
     async rent() {
       const res = await orderadd({
         openId: this.openId,
-        rentSn: "KX0571000001",
+        rentSn: this.sn
       });
       console.log(res);
-      if (res.code == 210) {
+      if(res.code ==200){
+        this.$router.push({
+          name: "Statuspay",
+          params: {
+            pay: 1
+          }
+        });
+      }
+      else if (res.code == 210) {
         Notify({
           type: "warning",
-          message: "请先支付押金后再租用！",
+          message: "请先支付押金后再租用！"
         });
         this.$router.push({
           name: "Lease",
           params: {
-            pay: 1,
-          },
+            pay: 1
+          }
         });
       } else if (res.code == 211) {
         Notify({
           type: "warning",
-          message: "请结算未支付的订单!",
+          message: "请结算未支付的订单!"
         });
       } else if (res.code == 502) {
         Notify({
           type: "danger",
-          message: "弹出充电宝异常,请提交故障上报！",
+          message: "弹出充电宝异常,请提交故障上报！"
         });
       }
       // this.$router.push({
@@ -98,7 +96,7 @@ export default {
       if (res.code == 212) {
         Notify({
           type: "primary",
-          message: "当前没有可归还充电宝，请先去租用充电宝！",
+          message: "当前没有可归还充电宝，请先去租用充电宝！"
         });
       } else if (res.code == 213) {
         Notify({ type: "danger", message: "请先归还充电宝！" });
@@ -112,8 +110,8 @@ export default {
             orderId: res.data.orderId,
             rentTime: res.data.rentTime,
             rentMoney: res.data.rentMoney,
-            time: res.data.time,
-          },
+            time: res.data.time
+          }
         });
       }
     },
@@ -125,12 +123,12 @@ export default {
         if (res.code == 211) {
           Dialog.confirm({
             title: "提示",
-            message: "您有一项待支付订单，前往支付？",
+            message: "您有一项待支付订单，前往支付？"
           })
             .then(() => {
               this.back();
             })
-            .catch((e) => {
+            .catch(e => {
               console.log(e);
             });
         } else if (res.code == 200) {
@@ -147,8 +145,8 @@ export default {
                 path: `/lease`,
                 name: "Lease",
                 params: {
-                  depositMoney: depositMoney,
-                },
+                  depositMoney: depositMoney
+                }
               });
               break;
             case "2":
@@ -169,8 +167,8 @@ export default {
       this.$router.push({
         name: "Lease",
         params: {
-          pay: 3,
-        },
+          pay: 3
+        }
       });
     },
     // 故障上报
@@ -184,7 +182,7 @@ export default {
             this.$router.push({
               path: "/faultReport",
               name: "faultReport",
-              params: { openId: this.openId },
+              params: { openId: this.openId }
             });
           } else {
             Notify({ type: "warning", message: "暂时不能提交故障" });
@@ -194,8 +192,24 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
+    }
   },
+  created() {
+    if (window.location.hash.includes("branNo")) {
+      localStorage.setItem(
+        "branNo",
+        window.location.hash.split("&")[1].split("branNo=")[1]
+      );
+      localStorage.setItem(
+        "openId",
+        window.location.hash.split("&")[0].split("?openId=")[1]
+      );
+      localStorage.setItem(
+        "sn",
+        window.location.hash.split("&")[2].split("sn=")[1]
+      );
+    }
+  }
 };
 </script>
 

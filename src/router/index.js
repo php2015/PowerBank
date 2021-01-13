@@ -5,6 +5,7 @@ import index from '@/view/index'
 import Lease from '@/view/lease'
 import Statuspay from '@/view/statuspay'
 import Prompt from '@/view/prompt'
+import Success from '@/view/success'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: "/prompt",
       name: "prompt",
       component: Prompt
+    },
+    {
+      path: "/success",
+      name: "Success",
+      component: Success
     },
     {
       path: "/faultReport",
