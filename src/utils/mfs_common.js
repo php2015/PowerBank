@@ -1,4 +1,5 @@
 import Fw from './mfs_ios_compatible'
+import { os } from './mfs_ios_compatible'
 var MFS = {};
 
 //设置标题栏

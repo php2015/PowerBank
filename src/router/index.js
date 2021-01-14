@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import index from '@/view/index'
 import Lease from '@/view/lease'
 import Statuspay from '@/view/statuspay'
@@ -35,6 +34,16 @@ export default new Router({
       path: "/faultReport",
       name: "faultReport",
       component: () => import( /* webpackChunkName: 'faultReport' */ "@/view/faultReport")
+    },
+    {
+      path: "/rentalAgree",
+      name: "rentalAgree",
+      component: () => import( /* webpackChunkName: 'rentalAgree' */ "@/view/rentalAgree")
+    },
+    {
+      path: "/paymentSuccess",
+      name: "paymentSuccess",
+      component: () => import( /* webpackChunkName: 'paymentSuccess' */ "@/view/paymentSuccess")
     },
     {
       path: "/authFailed",

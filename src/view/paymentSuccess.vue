@@ -1,33 +1,42 @@
 <template>
-  <div class="authFailed">
-    <img src="../assets/status/false.png" alt />
-    <span>用户认证失败</span>
+  <div class="paymentSuccess">
+    <img src="../assets/status/success.png" alt />
+    <span>{{span}}</span>
     <!-- <a class="button" href="index.html?mfsbackstyle=goback">返 回</a> -->
     <!-- href="index.html?mfsbackstyle=goback" -->
-    <button class="button" @click="openScan">返 回</button>
+    <button v-show="show" class="button" @click="openScan">返回首页</button>
   </div>
 </template>
 
 <script>
-import MFS from "../utils/mfs_common";
-import "../utils/mfs_oauth";
-import "../utils/mfs_ios_compatible";
-import Vue from "vue";
-import { Notify } from "vant";
-Vue.use(Notify);
-// 全局注册
-Vue.use(Notify);
+import { singleQuery } from "../api/api";
+
 export default {
+  data() {
+    return {
+      show: false,
+      span: null,
+    };
+  },
+  async mounted() {
+    let orderId = window.location.search.split("&")[0].split("=")[1];
+    const res = await singleQuery({ orderId });
+    console.log(res);
+    setTimeout(() => {
+      this.span = res.msg;
+      this.show = true;
+    }, 1000);
+  },
   methods: {
     openScan() {
-      MFS.goBack();
+      this.$router.push("/");
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.authFailed {
+.paymentSuccess {
   height: 100%;
   padding: 0 10px;
   display: flex;

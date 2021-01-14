@@ -53,6 +53,21 @@ export const depositRefund = (params) => {
     })
 }
 // 查询客户
+export const updateOrderAndCusStatus = (data) => {
+    return axios.request({
+        url: "/v1/app/order/updateOrderAndCusStatus",
+        data: { openId: data },
+        method: 'put'
+    })
+}
+// 查询协议价格
+export const getPrice = (params) => {
+    return axios.request({
+        url: `/v1/app/price/${params}`,
+        method: 'get'
+    })
+}
+// 查询客户
 export const singleQuery = (params) => {
     return axios.request({
         url: `/v1/app/pay/singleQuery/${params.orderId}`,

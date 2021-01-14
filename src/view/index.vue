@@ -8,26 +8,26 @@
       <div class="font-box-item">
         <div class="font-box-item-header">
           <span>按次计费</span>
-          <span>1分钱/次</span>
+          <span>{{price.price}}元 / 次</span>
         </div>
-        <div class="font-box-item-content">自充电宝借出后按次计费，1分钱租用1次，超过24小时未归还的，逾期按1元/天扣费</div>
+        <div class="font-box-item-content">自充电宝借出后按次计费，{{price.price}}元租用1次</div>
       </div>
       <div class="font-box-item">
         <div class="font-box-item-header">
           <span>押金规则</span>
         </div>
-        <div class="font-box-item-content">租用充电宝需缴纳99元押金，充电宝归还后，将在扣除租金后，自动退还剩余押金</div>
+        <div class="font-box-item-content">租用充电宝需缴纳 {{price.maxAmount}} 元押金，充电宝归还后，将在扣除租金后，自动退还剩余押金</div>
       </div>
       <div class="font-box-item">
         <div class="font-box-item-header">
           <span>注意事项</span>
         </div>
-        <div class="font-box-item-content">充电宝租用超出7天未归还，将扣除全部押金，充电宝归客户所有</div>
+        <div class="font-box-item-content">充电宝租用超出 {{price.maxDeadline}} 天未归还，将扣除全部押金，充电宝归客户所有</div>
       </div>
     </div>
     <div class="agreement">
       租用充电宝即代表您同意
-      <span>《共享充电宝租用协议》</span>
+      <span @click="rentalAgree">《共享充电宝租用协议》</span>
     </div>
     <div class="button" @click="rent">立即租用</div>
     <div class="false" @click="goFalse">故障上报</div>
@@ -41,16 +41,11 @@ import { Notify, Dialog } from "vant";
 // 全局注册
 Vue.use(Notify);
 Vue.use(Dialog);
-import {
-  getReturn,
-  depositRefund,
-  orderadd,
-  getLastOrder,
-  singleQuery,
-} from "../api/api";
+import { orderadd, getLastOrder, getPrice } from "../api/api";
+// singleQuery,
 export default {
   data() {
-    return { branNo: null, openId: null, sn: null };
+    return { branNo: null, openId: null, sn: null, price: {} };
   },
   mounted() {
     const { branNo, openId, sn } = this.$route.query;
@@ -69,12 +64,25 @@ export default {
     this.branNo = localStorage.getItem("branNo");
     this.openId = localStorage.getItem("openId");
     this.sn = localStorage.getItem("sn");
-    if (window.location.search.includes("orderId")) {
-      let orderId = window.location.search.split("&")[3].split("=")[1];
-      singleQuery({ orderId });
-    }
+    // if (window.location.search.includes("orderId")) {
+    //   let orderId = window.location.search.split("&")[3].split("=")[1];
+    //   singleQuery({ orderId });
+    // }
+    this.getPrice();
   },
   methods: {
+    // 点击租用协议
+    rentalAgree() {
+      this.$router.push("/rentalAgree");
+    },
+    // 获取协议金额
+    async getPrice() {
+      const res = await getPrice(this.sn);
+      if (res.code == 200) {
+        this.price = res.data;
+      }
+    },
+
     // 租用
     async rent() {
       console.log(new Date().getTime(), 1);
@@ -101,6 +109,11 @@ export default {
         Notify({
           type: "warning",
           message: "暂无可用充电宝！",
+        });
+      } else {
+        Notify({
+          type: "warning",
+          message: res.msg,
         });
       }
     },
@@ -138,6 +151,7 @@ export default {
   padding: 10px 14px 0 14px;
   background-color: #f0f2f5;
   height: 100%;
+  box-sizing: border-box;
   .carousel {
     background: url("../assets/images/carousel.png") no-repeat;
     background-size: cover;
