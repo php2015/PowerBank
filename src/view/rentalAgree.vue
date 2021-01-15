@@ -25,11 +25,18 @@
     <div
       class="p"
     >您完全理解并同意，XX有权随时修改本协议内容，届时将通过在软件上公布修改后的协议，该公布将被视为XX已通知用户；同时，XX也可通过其他适当方式通知用户。如果您选择继续租用即表示您同意并接受修改后的协议并受其约束；如果您不同意我们对本协议的修改，请立即停止使用本服务。在适用法律法规允许的范围内，本协议下充电宝租用使用规则的最终解释权归XX所有。</div>
+    <button class="button" @click="openScan">返回首页</button>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    openScan() {
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <style scoped >
@@ -56,5 +63,15 @@ export default {};
 strong {
   text-decoration: underline;
   font-weight: 700;
+}
+.button {
+  width: 100%;
+  height: 49px;
+  border-radius: 50px;
+  background-image: linear-gradient(45deg, #f6ce95, #e1a651);
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  margin: 10px 0;
 }
 </style>
