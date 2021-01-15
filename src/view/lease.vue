@@ -25,7 +25,13 @@ import axios from "axios";
 import { Toast, Notify } from "vant";
 Vue.use(Toast);
 Vue.use(Notify);
-import { orderadd, applyRefund, getPayAutograph, payRent } from "../api/api";
+import {
+  orderadd,
+  applyRefund,
+  getPayAutograph,
+  payRent,
+  updateOrderAndCusStatus,
+} from "../api/api";
 export default {
   data() {
     return {
@@ -64,62 +70,8 @@ export default {
       }
     },
     async onpay() {
-      console.log(new Date().getTime(), 2);
-
-      // try {
-      //   const res = await getPayAutograph({
-      //     openId: this.openId,
-      //     sn: this.rentSn,
-      //     payType: "yajin",
-      //     rentTime: 0,
-      //   });
-      //   console.log(res);
-      //   if (res.code == 200) {
-      //     this.Plain = res.data.plain;
-      //     this.Signature = res.data.signature;
-      //     // this.$refs.form.submit();
-      //     // this.TransId = res.data,
-      //     // const num = await payRent({
-      //     //   Plain: this.plain,
-      //     //   Signature: this.signature,
-      //     //   TransId:'IPEM'
-      //     // })
-      //     // axios
-      //     //   .post("http://epay1.zj96596.com.cn/paygate/main", {
-      //     //     Plain: this.plain,
-      //     //     Signature: this.signature,
-      //     //     TransId: "IPEM",
-      //     //   })
-      //     //   .then(function (response) {
-      //     //     console.log(response);
-      //     //   })
-      //     //   .catch(function (error) {
-      //     //     console.log(error);
-      //     //   });
-      //     // const options = {
-      //     //   method: "POST",
-      //     //   headers: { "content-type": "application/x-www-form-urlencoded" },
-      //     //   data: {
-      //     //     Plain: this.Plain,
-      //     //     Signature: this.Signature,
-      //     //     TransId: this.TransId,
-      //     //   },
-      //     //   url: "http://epay1.zj96596.com.cn/paygate/main",
-      //     // };
-      //     // const res1 = await axios(options);
-      //     // console.log(res1, "res1");
-      //     // that.$router.push({
-      //     //   name: "Statu`spay",
-      //     //   params: {
-      //     //     pay: 1`
-      //     //   }
-      //     // });
-      //   } else {
-      //     Notify({ type: "warning", message: res.msg });
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      // const resoult = await updateOrderAndCusStatus(this.openId);
+      // console.log(resoult);
     },
     // 申请退款
     async ondeposit() {

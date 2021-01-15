@@ -122,6 +122,7 @@ export default {
             type: "warning",
             message: res.msg,
           });
+          this.$router.push("/");
         }
       } catch (error) {
         console.log(error);
