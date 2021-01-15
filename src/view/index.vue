@@ -48,26 +48,23 @@ export default {
     return { branNo: null, openId: null, sn: null, price: {} };
   },
   mounted() {
-    const { branNo, openId, sn } = this.$route.query;
-    localStorage.setItem(
-      "branNo",
-      window.location.search.split("&")[1].split("branNo=")[1]
-    );
-    localStorage.setItem(
-      "openId",
-      window.location.search.split("&")[0].split("?openId=")[1]
-    );
-    localStorage.setItem(
-      "sn",
-      window.location.search.split("&")[2].split("sn=")[1]
-    );
+    if (window.location.search.includes("?openId")) {
+      localStorage.setItem(
+        "branNo",
+        window.location.search.split("&")[1].split("branNo=")[1]
+      );
+      localStorage.setItem(
+        "openId",
+        window.location.search.split("&")[0].split("?openId=")[1]
+      );
+      localStorage.setItem(
+        "sn",
+        window.location.search.split("&")[2].split("sn=")[1]
+      );
+    }
     this.branNo = localStorage.getItem("branNo");
     this.openId = localStorage.getItem("openId");
     this.sn = localStorage.getItem("sn");
-    // if (window.location.search.includes("orderId")) {
-    //   let orderId = window.location.search.split("&")[3].split("=")[1];
-    //   singleQuery({ orderId });
-    // }
     this.getPrice();
   },
   methods: {

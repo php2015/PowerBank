@@ -1,42 +1,81 @@
 <template>
   <div class="paymentSuccess">
-    <img src="../assets/status/success.png" alt />
-    <span>{{span}}</span>
-    <!-- <a class="button" href="index.html?mfsbackstyle=goback">返 回</a> -->
-    <!-- href="index.html?mfsbackstyle=goback" -->
-    <button v-show="show" class="button" @click="openScan">返回首页</button>
+    <div class="loading" v-show="!show">
+      <van-loading type="spinner" color="#0094ff" />
+    </div>
+    <div v-show="show" class="content">
+      <img src="../assets/status/success.png" alt />
+      <span>租用成功</span>
+      <button class="button" @click="openScan">返回首页</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { singleQuery } from "../api/api";
+import { singleQuery, getLastOrder } from "../api/api";
+import Vue from "vue";
+import { Loading } from "vant";
 
+Vue.use(Loading);
 export default {
   data() {
     return {
-      show: false,
-      span: null,
+      show: true,
+      openId: "",
     };
   },
   async mounted() {
-    let orderId = window.location.search.split("&")[0].split("=")[1];
-    const res = await singleQuery({ orderId });
-    console.log(res);
-    setTimeout(() => {
-      this.span = res.msg;
-      this.show = true;
-    }, 1000);
+    this.openId = localStorage.getItem("openId");
+    console.log(this.openId);
+    this.getLastOrder();
   },
   methods: {
+    async getLastOrder() {
+      const { openId } = this;
+      const res = await getLastOrder({ openId });
+      console.log(res);
+      let orderId = res.data.orderId;
+      //   fetch(`https://47.114.37.8:8888/v1/app/pay/singleQuery/${orderId}`).then(
+      //     (res) => {
+      //       console.log(res);
+      //     }
+      //   );
+      singleQuery({ orderId });
+    },
+
     openScan() {
-      this.$router.push("/");
+      this.show = false;
+      setTimeout(() => {
+        this.show = true;
+        this.$router.push("/");
+      }, 2000);
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.paymentSuccess {
+.paymentSuccess,
+.loading {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #fff;
+}
+.van-loading {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin-top: 250px;
+}
+.loading > img {
+  width: 50%;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.content {
   height: 100%;
   padding: 0 10px;
   display: flex;

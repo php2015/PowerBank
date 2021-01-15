@@ -95,7 +95,7 @@ export default {
       const { picker, exceptionReason } = values;
       let sn = localStorage.getItem("sn");
       let openId = localStorage.getItem("openId");
-      let exceptionType = picker == "租用问题" ? 1 : 2;
+      let exceptionType = picker == "租用故障" ? 1 : 2;
       let data = {
         exceptionReason,
         exceptionType,
@@ -108,18 +108,16 @@ export default {
       try {
         const res = await faultReport(data);
         console.log(res);
-        if (res.code == 500) {
-          console.log(500);
+        if (res.code == 400) {
+          Notify({
+            type: "warning",
+            message: res.msg,
+          });
+          this.$router.push("/");
         }
         if (res.code == 200) {
           Notify({
             type: "primary",
-            message: res.msg,
-          });
-          this.$router.push("/");
-        } else {
-          Notify({
-            type: "warning",
             message: res.msg,
           });
           this.$router.push("/");
