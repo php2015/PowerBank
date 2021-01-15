@@ -204,5 +204,7 @@ Fw.device = {
 
 var getWebkitEvent = getWebkitEvent || function () { };
 //   window.Fw = Fw;
-export default Fw
+export default Fw 
+
+export {os} 
 

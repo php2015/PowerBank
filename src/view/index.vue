@@ -1,5 +1,6 @@
 <template>
   <div class="power-box">
+    <div class="occupyhigh"></div>
     <div class="carousel">
       <div class="carousel-font">共享充电宝</div>
     </div>
@@ -25,19 +26,9 @@
         <div class="font-box-item-content">充电宝租用超出7天未归还，将扣除全部押金，充电宝归客户所有</div>
       </div>
     </div>
-<<<<<<< HEAD
-    <div class="font-box">
-      <div>押金规则：</div>
-      <div>
-        租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。
-      </div>
-      <br />
-      <div @click="goFalse">故障上报</div>
-=======
     <div class="agreement">
       租用充电宝即代表您同意
       <span>《共享充电宝租用协议》</span>
->>>>>>> 3aeb5e0a1b6c8b848551eec2ddc1ac2774b71c44
     </div>
     <div class="button" @click="rent">立即租用</div>
     <div class="false" @click="goFalse">故障上报</div>
@@ -78,45 +69,17 @@ export default {
       console.log(new Date().getTime(), 1);
       const res = await orderadd({
         openId: this.openId,
-<<<<<<< HEAD
-        rentSn: this.sn
-      });
-      console.log(res);
-      if(res.code ==200){
-        this.$router.push({
-          name: "Statuspay",
-          params: {
-            pay: 1
-          }
-        });
-      }
-      else if (res.code == 210) {
-        Notify({
-          type: "warning",
-          message: "请先支付押金后再租用！"
-        });
-        this.$router.push({
-          name: "Lease",
-          params: {
-            pay: 1
-          }
-=======
         rentSn: this.sn,
       });
       if (res.code == 210) {
         // 跳转到支付押金页面
         this.$router.push({
           name: "Lease",
->>>>>>> 3aeb5e0a1b6c8b848551eec2ddc1ac2774b71c44
         });
       } else if (res.code == 211) {
         Notify({
           type: "warning",
-<<<<<<< HEAD
-          message: "请结算未支付的订单!"
-=======
           message: "请先归还充电宝!",
->>>>>>> 3aeb5e0a1b6c8b848551eec2ddc1ac2774b71c44
         });
       } else if (res.code == 502) {
         Notify({
@@ -125,100 +88,6 @@ export default {
         });
       } else if (res.code == 501) {
         Notify({
-<<<<<<< HEAD
-          type: "primary",
-          message: "当前没有可归还充电宝，请先去租用充电宝！"
-        });
-      } else if (res.code == 213) {
-        Notify({ type: "danger", message: "请先归还充电宝！" });
-      } else if (res.code == 200) {
-        console.log(res.data);
-        this.$router.push({
-          path: `/statuspay`,
-          name: "Statuspay",
-          params: {
-            pay: 3,
-            orderId: res.data.orderId,
-            rentTime: res.data.rentTime,
-            rentMoney: res.data.rentMoney,
-            time: res.data.time
-          }
-        });
-      }
-    },
-    // 退押金
-    async depositRefund() {
-      try {
-        const res = await depositRefund({ openId: this.openId });
-        console.log(res);
-        if (res.code == 211) {
-          Dialog.confirm({
-            title: "提示",
-            message: "您有一项待支付订单，前往支付？"
-          })
-            .then(() => {
-              this.back();
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        } else if (res.code == 200) {
-          const { depositStatus } = res.data;
-          console.log(depositStatus);
-          switch (depositStatus) {
-            case "0":
-              Notify({ type: "warning", message: "尚未支付押金" });
-              break;
-            case "1":
-              const { depositMoney } = res.data;
-              console.log(depositMoney);
-              this.$router.push({
-                path: `/lease`,
-                name: "Lease",
-                params: {
-                  depositMoney: depositMoney
-                }
-              });
-              break;
-            case "2":
-              Notify({ type: "warning", message: "押金已经归还" });
-              break;
-
-            default:
-              break;
-          }
-        } else {
-          alert(res.msg);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    deposit() {
-      this.$router.push({
-        name: "Lease",
-        params: {
-          pay: 3
-        }
-      });
-    },
-    // 故障上报
-    async goFalse() {
-      try {
-        const res = await depositRefund({ openId: this.openId });
-        if (res.code >= 200 && res.code < 300) {
-          console.log(res.data);
-          const { depositStatus } = res.data;
-          if (depositStatus == "1") {
-            this.$router.push({
-              path: "/faultReport",
-              name: "faultReport",
-              params: { openId: this.openId }
-            });
-          } else {
-            Notify({ type: "warning", message: "暂时不能提交故障" });
-          }
-=======
           type: "warning",
           message: "暂无可用充电宝！",
         });
@@ -241,7 +110,6 @@ export default {
               time: res.data.createTime,
             },
           });
->>>>>>> 3aeb5e0a1b6c8b848551eec2ddc1ac2774b71c44
         } else {
           Notify({ type: "warning", message: "暂时不能提交故障" });
         }
@@ -272,9 +140,12 @@ export default {
 
 <style lang="less" scoped>
 .power-box {
-  padding: 10px 14px 0 14px;
+  padding: 0 14px;
   background-color: #f0f2f5;
   height: 100%;
+  .occupyhigh{
+    height: 10px;
+  }
   .carousel {
     background: url("../assets/images/carousel.png") no-repeat;
     background-size: cover;
