@@ -27,7 +27,6 @@ class HttpRequest {
         instance.interceptors.request.use(config => {
             // 添加全局loading... 
             if (!Object.keys(this.queue).length) {
-                //不建议开启，因为界面不友好
                 Toast.loading({
                     message: "加载中...",
                     forbidClick: true,

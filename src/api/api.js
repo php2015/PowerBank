@@ -2,21 +2,21 @@ import axios from '@/utils/request'
 // 查询最后一笔订单
 export const getLastOrder = (params) => {
     return axios.request({
-        url: `v1/app/order/getFinalOrder/${params.openId}`,
+        url: `charge/v1/app/order/getFinalOrder/${params.openId}`,
         method: 'get'
     })
 }
 // 查询订单
 export const getReturn = (params) => {
     return axios.request({
-        url: `v1/app/order/getOrder/${params.openId}/${params.rentFlag}`,
+        url: `charge/v1/app/order/getOrder/${params.openId}/${params.rentFlag}`,
         method: 'get'
     })
 }
 // 添加订单
 export const orderadd = (data) => {
     return axios.request({
-        url: 'v1/app/order/addOrder',
+        url: 'charge/v1/app/order/addOrder',
         method: 'post',
         data
     })
@@ -32,7 +32,7 @@ export const orderadd = (data) => {
 // 上传图片
 export const uploadImg = (data) => {
     return axios.request({
-        url: 'v1/wxapp/file/upload',
+        url: 'charge/v1/wxapp/file/upload',
         method: 'post',
         data
     })
@@ -40,7 +40,7 @@ export const uploadImg = (data) => {
 // 错误信息提交
 export const faultReport = (data) => {
     return axios.request({
-        url: 'v1/api/exception/add',
+        url: 'charge/v1/api/exception/add',
         method: 'post',
         data
     })
@@ -48,14 +48,14 @@ export const faultReport = (data) => {
 // 查询客户
 export const depositRefund = (params) => {
     return axios.request({
-        url: `v1/app/customer/getCustomer/${params.openId}`,
+        url: `charge/v1/app/customer/getCustomer/${params.openId}`,
         method: 'get'
     })
 }
 // 查询客户
 export const updateOrderAndCusStatus = (data) => {
     return axios.request({
-        url: "/v1/app/order/updateOrderAndCusStatus",
+        url: "charge/v1/app/order/updateOrderAndCusStatus",
         data: { openId: data },
         method: 'put'
     })
@@ -63,14 +63,14 @@ export const updateOrderAndCusStatus = (data) => {
 // 查询协议价格
 export const getPrice = (params) => {
     return axios.request({
-        url: `/v1/app/price/${params}`,
+        url: `charge//v1/app/price/${params}`,
         method: 'get'
     })
 }
 // 查询客户
 export const singleQuery = (params) => {
     return axios.request({
-        url: `/v1/app/pay/singleQuery/${params.orderId}`,
+        url: `charge/v1/app/pay/singleQuery/${params.orderId}`,
         method: 'get'
     })
 }
@@ -78,7 +78,7 @@ export const singleQuery = (params) => {
 // 获取支付时的明文和签名
 export const getPayAutograph = (params) => {
     return axios.request({
-        url: 'v1/app/pay/getPayInfoV2',
+        url: 'charge/v1/app/pay/getPayInfoV2',
         method: 'get',
         params
     })
@@ -94,7 +94,7 @@ export const getPayAutograph = (params) => {
 // 申请退款
 export const applyRefund = (params) => {
     return axios.request({
-        url: `v1/app/pay/refund/${params.openId}`,
+        url: `charge/v1/app/pay/refund/${params.openId}`,
         method: 'post',
     })
 }

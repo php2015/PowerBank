@@ -9,7 +9,7 @@ export default {
     baseUrl: {
         dev: 'https://47.114.37.8:8888/',
         // dev: 'http://192.168.1.244:8090/v1/',
-        pro: '',
+        pro: 'http://101.71.142.198:8638',
     },
     // 默认打开的首页的路由name值，默认为home
     homeName: 'index',
