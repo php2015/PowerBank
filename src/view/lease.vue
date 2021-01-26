@@ -8,7 +8,7 @@
     </div>
     <div class="fooer">
       <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
-      <form action="http://epay1.zj96596.com.cn/paygate/main" method="post" ref="form">
+      <form action="http://epay1.zj96596.com.cn/paygate1/main" method="post" ref="form">
         <input type="hidden" name="TransId" :value="TransId" />
         <input type="hidden" name="Plain" :value="Plain" />
         <input type="hidden" name="Signature" :value="Signature" />
