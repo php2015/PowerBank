@@ -4,7 +4,7 @@
       <div class="carousel-font">丰收共享充电宝</div>
     </div>
     <div class="font-box">
-      <div class="font-box-title">订单须知</div>
+      <div class="font-box-title">使用须知</div>
       <div class="font-box-item">
         <div class="font-box-item-header">
           <span>按次计费</span>
@@ -106,6 +106,11 @@ export default {
         Notify({
           type: "warning",
           message: "暂无可用充电宝！",
+        });
+      } else if (res.code == 510) {
+        Notify({
+          type: "warning",
+          message: res.msg,
         });
       } else {
         Notify({
