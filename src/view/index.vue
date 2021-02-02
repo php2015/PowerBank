@@ -1,7 +1,7 @@
 <template>
   <div class="power-box">
     <div class="carousel">
-      <div class="carousel-font">共享充电宝</div>
+      <div class="carousel-font">丰收共享充电宝</div>
     </div>
     <div class="font-box">
       <div class="font-box-title">订单须知</div>
