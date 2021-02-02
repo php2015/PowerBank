@@ -2,12 +2,13 @@
   <div class="hire-box">
     <div class="hire">
       <div class="amount">
-        <span style="font-size:18px">￥</span>99.00
+        <span style="font-size:18px">￥</span>
+        {{price}}
       </div>
       <div class="hire-font">租用前需先充值押金</div>
     </div>
     <div class="fooer">
-      <div class="depositfont">押金规则：租用充电宝需缴纳99元押金，充电宝归还后，并支付租金，即可发起退押金。</div>
+      <div class="depositfont">押金规则：租用充电宝需缴纳押金，充电宝归还后，扣除租金后剩余押金自动退还。</div>
       <form action="http://epay1.zj96596.com.cn/paygate1/main" method="post" ref="form">
         <input type="hidden" name="TransId" :value="TransId" />
         <input type="hidden" name="Plain" :value="Plain" />
@@ -21,17 +22,10 @@
 
 <script>
 import Vue from "vue";
-import axios from "axios";
 import { Toast, Notify } from "vant";
 Vue.use(Toast);
 Vue.use(Notify);
-import {
-  orderadd,
-  applyRefund,
-  getPayAutograph,
-  payRent,
-  updateOrderAndCusStatus,
-} from "../api/api";
+import { applyRefund, getPayAutograph, getPrice } from "../api/api";
 export default {
   data() {
     return {
@@ -41,6 +35,7 @@ export default {
       TransId: null,
       Plain: null,
       Signature: null,
+      price: null,
     };
   },
   mounted() {
@@ -50,15 +45,24 @@ export default {
     this.openId = localStorage.getItem("openId");
     this.rentSn = localStorage.getItem("sn");
     this.getBrightAndDark();
+    this.getPrice();
   },
   methods: {
+    // 获取协议金额
+    async getPrice() {
+      const res = await getPrice(this.rentSn);
+      if (res.code == 200) {
+        let temp = res.data.maxAmount.toString().split(".");
+        this.price =
+          temp.length > 1 ? res.data.maxAmount : res.data.maxAmount + ".00";
+      }
+    },
     async getBrightAndDark() {
       try {
         const res = await getPayAutograph({
           openId: this.openId,
           sn: this.rentSn,
         });
-        console.log(res);
         if (res.code == 200) {
           this.Plain = res.data.plain;
           this.Signature = res.data.signature;

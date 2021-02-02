@@ -63,7 +63,7 @@ export const updateOrderAndCusStatus = (data) => {
 // 查询协议价格
 export const getPrice = (params) => {
     return axios.request({
-        url: `charge//v1/app/price/${params}`,
+        url: `charge/v1/app/price/${params}`,
         method: 'get'
     })
 }

@@ -10,11 +10,11 @@ module.exports = {
     assetsSubDirectory: "static",
     assetsPublicPath: "/",
     proxyTable: {
-      "/api": {
+      "/charge": {
         target: "http://kx-api:8090",
         changeOrigin: true,
         pathRewrite: {
-          //  "^/aip": "",
+          "^/charge": "",
         }
       }
     },
