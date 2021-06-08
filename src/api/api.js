@@ -67,13 +67,6 @@ export const getPrice = (params) => {
         method: 'get'
     })
 }
-// 查询客户
-export const singleQuery = (params) => {
-    return axios.request({
-        url: `charge/v1/app/pay/singleQuery/${params.orderId}`,
-        method: 'get'
-    })
-}
 
 // 获取支付时的明文和签名
 export const getPayAutograph = (params) => {

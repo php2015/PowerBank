@@ -1,11 +1,17 @@
 <template>
   <div class="power-box">
     <div class="carousel">
-      <div class="carousel-font">共享充电宝</div>
+      <div class="carousel-font">丰收共享充电宝</div>
     </div>
     <div class="font-box">
       <div class="font-box-title">使用须知</div>
-      <div class="font-box-item">
+      <div v-if="price.price == 0" class="font-box-item">
+        <div class="font-box-item-header">
+          <span>租用免费</span>
+        </div>
+        <div class="font-box-item-content">充电宝按次租用，租用免费</div>
+      </div>
+      <div v-else class="font-box-item">
         <div class="font-box-item-header">
           <span>按次计费</span>
           <span>{{price.price}}元 / 次</span>
@@ -16,7 +22,14 @@
         <div class="font-box-item-header">
           <span>押金规则</span>
         </div>
-        <div class="font-box-item-content">租用充电宝需缴纳 {{price.maxAmount}} 元押金，充电宝归还后，将在扣除租金后，自动退还剩余押金</div>
+        <div v-if="price.price == 0" class="font-box-item-content">
+          租用充电宝需缴纳
+          <strong>{{price.maxAmount}} 元押金</strong> ，充电宝归还后，自动原路退还全部押金
+        </div>
+        <div v-else class="font-box-item-content">
+          租用充电宝需缴纳
+          <strong>{{price.maxAmount}} 元押金</strong> ，充电宝归还后，将在扣除租金后，自动退还剩余押金
+        </div>
       </div>
       <div class="font-box-item">
         <div class="font-box-item-header">
@@ -42,7 +55,6 @@ import { Notify, Dialog } from "vant";
 Vue.use(Notify);
 Vue.use(Dialog);
 import { orderadd, getLastOrder, getPrice } from "../api/api";
-// singleQuery,
 export default {
   data() {
     return { branNo: null, openId: null, sn: null, price: {} };
@@ -223,6 +235,9 @@ export default {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
+  }
+  strong {
+    font-weight: 700;
   }
 }
 </style>

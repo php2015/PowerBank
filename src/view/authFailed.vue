@@ -1,9 +1,9 @@
 <template>
   <div class="authFailed">
     <img src="../assets/status/false.png" alt />
-    <span>用户认证失败</span>
-    <!-- <a class="button" href="index.html?mfsbackstyle=goback">返 回</a> -->
-    <!-- href="index.html?mfsbackstyle=goback" -->
+    <span>{{errorMessage}}</span>
+    <br />
+    <span>{{errorCode}}</span>
     <button class="button" @click="openScan">返 回</button>
   </div>
 </template>
@@ -18,6 +18,22 @@ Vue.use(Notify);
 // 全局注册
 Vue.use(Notify);
 export default {
+  data() {
+    return {
+      errorMessage: null,
+      errorCode: null,
+    };
+  },
+  mounted() {
+    this.errorMessage = window.location.href.includes("errorMessage")
+      ? decodeURI(window.location.href.split("=")[1].split("&")[0])
+      : "认证失败";
+    //  ?errorMessage="+data1.msg+"&errorCode="+data1.errorCode;
+    this.errorCode = window.location.href.includes("errorCode")
+      ? window.location.href.split("errorCode=")[1]
+      : "11111";
+  },
+
   methods: {
     openScan() {
       MFS.goBack();
@@ -42,7 +58,6 @@ export default {
     font-size: 14px;
     color: #333;
     font-weight: 700;
-    margin-bottom: 50px;
   }
   .button {
     width: 100%;
@@ -52,6 +67,7 @@ export default {
     border: none;
     color: #fff;
     font-size: 18px;
+    margin-top: 50px;
   }
 }
 </style>

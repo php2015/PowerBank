@@ -9,7 +9,7 @@
     </div>
     <div class="fooer">
       <div class="depositfont">押金规则：租用充电宝需缴纳押金，充电宝归还后，扣除租金后剩余押金自动退还。</div>
-      <form action="http://epay1.zj96596.com.cn/paygate1/main" method="post" ref="form">
+      <form action="https://epay1.zj96596.com/paygate/main" method="post" ref="form">
         <input type="hidden" name="TransId" :value="TransId" />
         <input type="hidden" name="Plain" :value="Plain" />
         <input type="hidden" name="Signature" :value="Signature" />

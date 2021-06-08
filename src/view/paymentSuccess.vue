@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { singleQuery, getLastOrder } from "../api/api";
+import {  getLastOrder } from "../api/api";
 import Vue from "vue";
 import { Loading } from "vant";
 
@@ -27,7 +27,7 @@ export default {
   async mounted() {
     this.openId = localStorage.getItem("openId");
     console.log(this.openId);
-    this.getLastOrder();
+    // this.getLastOrder();
   },
   methods: {
     async getLastOrder() {
@@ -35,12 +35,6 @@ export default {
       const res = await getLastOrder({ openId });
       console.log(res);
       let orderId = res.data.orderId;
-      //   fetch(`https://47.114.37.8:8888/v1/app/pay/singleQuery/${orderId}`).then(
-      //     (res) => {
-      //       console.log(res);
-      //     }
-      //   );
-      singleQuery({ orderId });
     },
 
     openScan() {
