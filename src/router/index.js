@@ -4,6 +4,8 @@ import index from '@/view/index'
 import Lease from '@/view/lease'
 import Statuspay from '@/view/statuspay'
 import Prompt from '@/view/prompt'
+import Eject from '@/view/eject'
+import Login from '@/view/login'
 
 Vue.use(Router)
 
@@ -14,6 +16,16 @@ export default new Router({
       path: "/",
       name: "index",
       component: index
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: Login
+    },
+    {
+      path: "/eject",
+      name: "Eject",
+      component: Eject
     },
     {
       path: "/lease",

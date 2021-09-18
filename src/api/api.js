@@ -99,3 +99,28 @@ export const payRent = (data) => {
         data
     })
 }
+
+// 设备状态查询接口
+export const getCabinetStatus = (params) => {
+    return axios.request({
+        url: 'charge/v1/app/cabinet/getCabinetStatus',
+        method: 'get',
+        params
+    })
+}
+// 弹出充电宝
+export const popUpBattery = (params) => {
+    return axios.request({
+        url: `charge/v1/app/cabinet/popUpBattery/${params.sn}/${params.slotId}`,
+        method: 'get',
+        params
+    })
+}
+// 登录
+export const login = (data) => {
+    return axios.request({
+        url: `charge/v1/app/check/login`,
+        method: 'post',
+        data
+    })
+}
